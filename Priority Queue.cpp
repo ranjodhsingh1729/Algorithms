@@ -1,90 +1,121 @@
 #include <bits/stdc++.h>
 
-#define MAXLEN 100
-#define parent(x) ((x)/2)
-#define left_child(x) ((x)*2)
-#define right_child(x) ((x)*2 + 1)
+#define MAXLEN 100000
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 
 using namespace std;
+typedef long long ll;
+const ll INF = 0x3f3f3f3f3f3f3f3f;
 
-typedef struct {
-    int ind;
-    int key;
-    int val;
-} obj;
 
-typedef struct  {
-    int size;
-    obj heap[];
-} priorityq;
+#define parent(n) (n)/2
+#define lchild(n) 2*(n)
+#define rchild(n) 2*(n)+1
 
-void max_heapify_iterative(int i, int n, obj arr[]) {
-    obj temp;
-    int l, r, m;
-    while (true) {
-        l = left_child(i); // 2*i
-        r = right_child(i); // 2*i + 1
 
-        m = i;
-        if (l <= n && arr[l-1].key > arr[i-1].key) {
-            m = l;
-        }
-        if (r <= n && arr[r-1].key > arr[m-1].key) {
-            m = r;
+class MinHeap {
+    int n;
+    int mn;
+    int *arr;
+
+    public:
+        MinHeap(int mn) : n(0), mn(mn) {
+            arr = new int[mn];
         }
 
-        if (i != m) {
-            temp = arr[i-1];
-            arr[i-1] = arr[m-1];
-            arr[m-1] = temp;
-        } else {
-            break;
+        MinHeap(int mn, int n, int inp[]) : n(n), mn(mn) {
+            arr = new int[mn];
+            memcpy(arr, inp, n*sizeof(int));
+            print();
+            build();
         }
 
-        i = m;
-    }
-}
+        int minimum() {
+            return arr[0];
+        }
 
-void build_max_heap(int n, obj arr[]) {
-    for (int i = n/2+1; i > 0; i--) {
-        max_heapify_iterative(i, n, arr);
-    }
-}
+        int extract_minimum() {
+            swap(arr[0], arr[--n]);
+            heapify(0);
+            return arr[n];
+        }
 
-obj* pq_maximum(priorityq &pq) {
-    if (pq.size < 1) {
-        cout << "Heap Underflow" << '\n';
-        return NULL;
-    }
-    return &pq.heap[0];
-}
+        void decrease_key(int new_key) {
+        }
 
-obj* pq_extract_maximum(priorityq &pq) {
-    obj *mx = pq_maximum(pq);
-    pq.heap[0] = pq.heap[pq.size-1];
-    pq.size--;
-    max_heapify_iterative(1, pq.size, pq.heap);
+        void heapify(int x) {
+            int l, r, tmp;
+            while (true) {
+                l = lchild(x+1)-1;
+                r = rchild(x+1)-1;
 
-    return mx;
-}
+                tmp = x;
+                if (l < n && arr[l] < arr[x])
+                    tmp = l;
+                if (r < n && arr[r] < arr[l])
+                    tmp = r;
 
-void pq_insert(obj x, priorityq &pq) {
+                if (x == tmp) break;
 
-}
+                swap(arr[x], arr[tmp]);
+                x = tmp;
+            }
+        }
 
-void pq_increse_key(obj x, priorityq &pq) {
+        void build() {
+            for (int i = n/2; i >= 0; i--) {
+                heapify(i);
+            }
+        }
 
-}
+        void print() {
+            for (int i = 0; i < n; i++) {
+                cout << arr[i] << ' ';
+            }
+            cout << '\n';
+        }
+
+        ~MinHeap() {
+            delete[] arr;
+        }
+};
+
+
+// class MinPriorityQueue {
+
+//     public:
+//         MinPriorityQueue() {
+
+//         }
+//         MinPriorityQueue() {
+            
+//         }
+//         MinPriorityQueue() {
+            
+//         }
+
+//         void insert() {
+//             // pending
+//         }
+
+//         int minimum() {
+//             return ;
+//         }
+
+//         int extract_minimum() {
+//             return 0;
+//         }
+
+//         void decrease_key() {
+
+//         }
+// };
+
+
 
 int main() {
-    priorityq pq;
-    cin >> pq.size;
-
-    for (int i = 0; i < pq.size; i++) {
-        pq.heap[i].ind = i;
-        cin >> pq.heap[i].key;
-        cin >> pq.heap[i].val;
-    }
-
+    
+    
     return 0;
 }

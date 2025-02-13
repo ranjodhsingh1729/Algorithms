@@ -165,8 +165,8 @@ int main() {
 
     heapsort(n, arr);
 
-    for (auto &x: arr) {
-        cout << x << ' ';
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << ' ';
     }
     cout << '\n';
     
