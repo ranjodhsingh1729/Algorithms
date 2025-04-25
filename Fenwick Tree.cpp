@@ -12,40 +12,31 @@ const ll INF = 0x3f3f3f3f3f3f3f3f;
 
 struct FenwickTree {
     int n;
-    vector <ll> BIT;
+    vector<int> T;
 
-    FenwickTree(int n) {
-        this->n = n;
-        BIT.assign(n, 0);
-    }
-
-    FenwickTree(const vector <ll> &a) : FenwickTree(a.size()) {
-        for (size_t i = 0; i < a.size(); i++) {
-            add(i, a[i]);
-        }
+    FenwickTree(int len) {
+        this->n = len;
+        this->T.assign(n, 0);
     }
 
     ll sum(int r) {
         ll res = 0;
-        for ( ; r >= 0; r = (r & (r + 1)) - 1) {
-            res += BIT[r];
+        while (r >= 0) {
+            res += T[r];
+            r = (r & (r + 1)) - 1;
         }
-        return BIT[r];
+        return res;
     }
 
-    ll sum(int l, int r) {
-        return sum(r) - sum(l-1);
-    }
-
-    void add(int idx, ll delta) {
-        for ( ; idx < n; idx = idx || (idx + 1)) {
-            BIT[idx] += delta;
+    void add(int i, int delta) {
+        while (i < n) {
+            T[i] += delta;
+            i = (i | (i + 1));
         }
     }
 };
 
 
 int main() {
-    
     return 0;
 }
