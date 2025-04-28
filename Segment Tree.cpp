@@ -54,11 +54,11 @@ struct SegmentTree {
         
         int mid = tl+(tr-tl)/2;
         if (qr <= mid) {
-            return sum(left(node), tl, mid, tl, qr);
+            return sum(left(node), tl, mid, ql, qr);
         } else if (ql > mid) {
-            return sum(right(node), mid+1, tr, ql, tr);
+            return sum(right(node), mid+1, tr, ql, qr);
         } else {
-            return sum(left(node), tl, mid, tl, qr) + sum(right(node), mid+1, tr, ql, tr);
+            return sum(left(node), tl, mid, ql, mid) + sum(right(node), mid+1, tr, mid+1, qr);
         }
     }
 };
