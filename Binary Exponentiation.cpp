@@ -26,24 +26,54 @@ ll binpowrec(int a, int b) {
 }
 
 
-ll binpow(int a, int b) {
-    ll ans = 1, curi = a, curp = 1;
-    for (int i = 0; curp <= b; i++) {
-        if ((curp & b))
-            ans *= curi;
-        curp <<= 1;
-        curi *= curi;
+ll binpowitr(int a, int b) {
+    ll ans = 1, cur = a;
+    while (b > 0) {
+        if (b & 1)
+            ans *= cur;
+        cur *= cur;
+
+        b >>= 1;
     }
     return ans;
 }
 
 
+ll binpowmod(ll a, ll b, ll m) {
+    ll ans = 1, cur = a % m;
+    while (b > 0) {
+        if (b & 1)
+            ans = (ans * cur) % m;
+        cur = (cur * cur) % m;
+
+        b >>= 1;
+    }
+    return ans;
+}
+
+
+ll mulop_mod(ll a, ll b, ll m) {
+    a = a < m ? a : (a % m);
+    b = b < m ? b : (b % m);
+    ll ans = 0, cur = b;
+    while (a > 0) {
+        if (a & 1)
+            ans = (ans + cur) % m;
+        cur = (cur + cur) % m;
+
+        a >>= 1;
+    }
+    return ans;
+}
+
+
+
 int main() {
-    int a, b;
+    ll a, b;
     a = 0, b = 0;
     while (a != 0 || b != -1) {
         cin >> a >> b;
-        cout << binpow(a, b) << '\n';
+        cout << mulop_mod(a, b, 1e7+9) << '\n';
     }
     return 0;
 }
