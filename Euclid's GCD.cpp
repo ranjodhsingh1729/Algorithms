@@ -33,11 +33,36 @@ ll lcm(ll a, ll b) {
     return a / gcd(a, b) * b;
 }
 
+ll gcd_ext(ll a, ll b, ll &x, ll &y) {
+    if (b == 0) {
+        x = 1, y = 0;
+        return a;
+    } else {
+        ll z = gcd_ext(b, a % b, x, y);
+        y = x - y * (a / b);
+        x = (x - y) / (a / b);
+        return z;
+    }
+}
+
+
+ll gcd_ext_itr(ll a, ll b, ll &x, ll &y) {
+    x = 1, y = 0;
+    ll x1 = 0, y1 = 1, a1 = a, b1 = b, q;
+    while (b1) {
+        q = a1 / b1;
+        tie(x, x1) = make_tuple(x1, x - q * x1);
+        tie(y, y1) = make_tuple(y1, y - q * y1);
+        tie(a1, b1) = make_tuple(b1, a1 - q * b1);
+    }
+    return a1;
+}
+
 
 int main() {
-    ll x, y;
-    cin >> x >> y;
-    cout << gcditr(x, y) << '\n';
-
+    ll a, b, x, y;
+    cin >> a >> b;
+    cout << gcd_ext_itr(a, b, x, y) << ' ';
+    cout << x << ' ' <<  y << '\n';
     return 0;
 }
