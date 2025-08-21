@@ -1,54 +1,40 @@
 #include <bits/stdc++.h>
 
-#define MAXLEN 100000
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
-#define FIXIO  ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define mod(a, b) ((long long) ((a) - (b)*floor((long double) (a)/(b))))
 
 using namespace std;
 typedef long long ll;
+typedef array<int, 3> triple;
+const ll MOD = 1e9+7;
+const int MAXN = 1e5+1;
 const ll INF = 0x3f3f3f3f3f3f3f3f;
 
 
-void fileio() {
-    #ifndef ONLINE_JUDGE
-    freopen(".streams/input.txt", "r", stdin);
-    freopen(".streams/output.txt", "w", stdout);
-    #endif
-}
+vector<bool> sieve(int n) {
+    vector<bool> S(n+1, true);
+    S[0] = false, S[1] = false;
+    for (int i = 2; i*i <= n; i++) {
+        if (S[i] == false)
+            continue;
 
-void solve() {
-    int SIEVE[30] = { 0 };
-    SIEVE[0] = 1;
-    SIEVE[1] = 1;
-
-    for (int i = 2; i <= 25; i++) {
-        for (int j = 2; j*i <= 25; j++) {
-            SIEVE[i*j] = 1;
-        }
+        for (int j = 2; i*j <= n; j++)
+            S[i*j] = false;
     }
-
-    for (int i = 0; i < 30; i++) {
-        if (!SIEVE[i])
-        cout << i << ' ';
-    }
-    cout << '\n';
-
-    
+    return S;
 }
-
 
 int main() {
-    FIXIO;
-    //fileio();
+    int n;
+    cin >> n;
 
-    ll t;
-    // t = 1;
-    cin >> t;
+    vector<bool> S = sieve(n);
 
-    while (t--) {
-        solve();
-    }
+    for (int i = 0; i <= n; i++)
+        if (S[i])
+            cout << i << ' ';
+    cout << endl;
 
     return 0;
 }
